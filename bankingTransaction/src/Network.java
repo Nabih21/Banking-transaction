@@ -559,4 +559,9 @@ public class Network {
 		/* Implement here the code for the run method ... */
     	}    
     }
+
+    public void start() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'start'");
+    }
 }
