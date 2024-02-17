@@ -22,8 +22,10 @@ public class Driver {
     	  ******************************************************************************************************************************************/
         
     	Network objNetwork = new Network("network");            /* Activate the network */
-        objNetwork.start();
+        objNetwork.run();
         Server objServer = new Server();        
         /* Complete here the code for the main method ...*/
+
+        
     }
 }

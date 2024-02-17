@@ -128,7 +128,7 @@ public class Server {
         
         try
         {
-         inputStream = new Scanner(new FileInputStream("account.txt"));
+         inputStream = new Scanner(new FileInputStream("src/account.txt"));
         }
         catch(FileNotFoundException e)
         {
@@ -313,7 +313,11 @@ public class Server {
     	System.out.println("\n DEBUG : Server.run() - starting server thread " + objNetwork.getServerConnectionStatus());
     	
     	/* Implement the code for the run method */
-        
+        	serverStartTime = System.currentTimeMillis();
+            
+
+
+            serverEndTime =  System.currentTimeMillis();
         System.out.println("\n Terminating server thread - " + " Running time " + (serverEndTime - serverStartTime) + " milliseconds");
            
     }

@@ -554,14 +554,14 @@ public class Network {
     {	
     	System.out.println("\n DEBUG : Network.run() - starting network thread");
     	
-    	while (true)
-    	{
-		/* Implement here the code for the run method ... */
-    	}    
+    	// while (true)
+    	// {
+		// /* Implement here the code for the run method ... */
+    	// }    
     }
 
     public void start() {
-        // TODO Auto-generated method stub
+        // not sure about this, but this method is in the driver class
         throw new UnsupportedOperationException("Unimplemented method 'start'");
     }
 }
