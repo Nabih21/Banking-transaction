@@ -15,7 +15,7 @@ import java.util.InputMismatchException;
  * @author Kerly Titus
  */
 
-public class Client { 
+public class Client extends Thread{ 
     
     private static int numberOfTransactions;   		/* Number of transactions to process */
     private static int maxNbTransactions;      		/* Maximum number of transactions */
@@ -157,12 +157,14 @@ public class Client {
          
          while (i < getNumberOfTransactions())
          {  
-            // while( objNetwork.getInBufferStatus().equals("full") );     /* Alternatively, busy-wait until the network input buffer is available */
+            while( objNetwork.getInBufferStatus().equals("full") ); 
+              Thread.yield();
+            /* Alternatively, busy-wait until the network input buffer is available */
                                              	
             transaction[i].setTransactionStatus("sent");   /* Set current transaction status */
            
             System.out.println("\n DEBUG : Client.sendTransactions() - sending transaction on account " + transaction[i].getAccountNumber());
-            
+               
             objNetwork.send(transaction[i]);                            /* Transmit current transaction */
             i++;
          }
@@ -181,7 +183,10 @@ public class Client {
          
          while (i < getNumberOfTransactions())
          {     
-        	 // while( objNetwork.getOutBufferStatus().equals("empty"));  	/* Alternatively, busy-wait until the network output buffer is available */
+        	 while( objNetwork.getOutBufferStatus().equals("empty")); 
+                Thread.yield();
+             
+             /* Alternatively, busy-wait until the network output buffer is available */
                                                                         	
             objNetwork.receive(transact);                               	/* Receive updated transaction from the network buffer */
             
@@ -214,5 +219,24 @@ public class Client {
     	long sendClientStartTime, sendClientEndTime, receiveClientStartTime, receiveClientEndTime;
     
     	/* Implement here the code for the run method ... */
+
+        	if (getClientOperation().equals("sending"))
+        	{ 
+        		sendClientStartTime = System.currentTimeMillis();
+        		sendTransactions();
+        		sendClientEndTime = System.currentTimeMillis();
+        		System.out.println("\n Terminating client sending application, execution time " + (sendClientEndTime - sendClientStartTime) + " ms");
+        	}
+        	else
+        		if (getClientOperation().equals("receiving"))
+        		{ 
+        			receiveClientStartTime = System.currentTimeMillis();
+        			receiveTransactions(transact);
+                    objNetwork.disconnect(objNetwork.getClientIP());
+        			receiveClientEndTime = System.currentTimeMillis();
+        			System.out.println("\n Terminating client receiving application, execution time " + (receiveClientEndTime - receiveClientStartTime) + " ms");
+        		}
+
+
     }
 }

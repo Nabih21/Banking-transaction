@@ -15,7 +15,7 @@ import java.util.InputMismatchException;
  * @author Kerly Titus
  */
 
-public class Server {
+public class Server extends Thread{
   
 	int numberOfTransactions;         /* Number of transactions handled by the server */
 	int numberOfAccounts;             /* Number of accounts stored in the server */
@@ -192,7 +192,9 @@ public class Server {
          /* Process the accounts until the client disconnects */
          while ((!objNetwork.getClientConnectionStatus().equals("disconnected")))
          { 
-        	 /* while( (objNetwork.getInBufferStatus().equals("empty"))); */  /* Alternatively, busy-wait until the network input buffer is available */
+        	 while( (objNetwork.getInBufferStatus().equals("empty"))); 
+                Thread.yield();
+             /* Alternatively, busy-wait until the network input buffer is available */
         	 
         	 if (!objNetwork.getInBufferStatus().equals("empty"))
         	 {
@@ -231,7 +233,10 @@ public class Server {
                             System.out.println("\n DEBUG : Server.processTransactions() - Obtaining balance from account" + trans.getAccountNumber());
         				 } 
         		        		 
-        		 // while( (objNetwork.getOutBufferStatus().equals("full"))); /* Alternatively,  busy-wait until the network output buffer is available */
+        		 while( (objNetwork.getOutBufferStatus().equals("full"))); 
+                    Thread.yield();
+                 
+                 /* Alternatively,  busy-wait until the network output buffer is available */
                                                            
         		 System.out.println("\n DEBUG : Server.processTransactions() - transferring out account " + trans.getAccountNumber());
         		 
@@ -314,7 +319,16 @@ public class Server {
     	
     	/* Implement the code for the run method */
         	serverStartTime = System.currentTimeMillis();
-            
+            while (true) {
+                if (objNetwork.getServerConnectionStatus().equals("disconnected")) {
+                    break;
+                }
+                if (!objNetwork.getInBufferStatus().equals("empty")) {
+                    System.out.println("\n DEBUG : Server.run() - receiving transaction from network input buffer");
+                    processTransactions(trans);
+                    
+                }
+            }
 
 
             serverEndTime =  System.currentTimeMillis();

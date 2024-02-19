@@ -9,7 +9,7 @@
  *
  * @author Kerly Titus
  */
-public class Network {
+public class Network extends Thread{
     
     private static int maxNbPackets;                           /* Maximum number of simultaneous transactions handled by the network buffer */
     private static int inputIndexClient, inputIndexServer, outputIndexServer, outputIndexClient;                   /* Network buffer indices for accessing the input buffer (inputIndexClient, outputIndexServer) and output buffer (inputIndexServer, outputIndexClient) */
@@ -554,14 +554,21 @@ public class Network {
     {	
     	System.out.println("\n DEBUG : Network.run() - starting network thread");
     	
-    	// while (true)
-    	// {
-		// /* Implement here the code for the run method ... */
-    	// }    
+        	/* Start the network server */
+
+    	while (true ) 
+    	{ 
+         if (getServerConnectionStatus() == "disconnected" && getClientConnectionStatus() == "disconnected")
+         {
+             setNetworkStatus("inactive");
+             System.out.println("\n Terminating network thread - Client disconnected Server disconnected");
+             break;
+         }
+         else
+         Thread.yield();
+         
+    	}    
     }
 
-    public void start() {
-        // not sure about this, but this method is in the driver class
-        throw new UnsupportedOperationException("Unimplemented method 'start'");
-    }
+    
 }
