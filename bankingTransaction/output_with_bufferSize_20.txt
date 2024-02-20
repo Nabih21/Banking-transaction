@@ -161,10 +161,10 @@
 
  Account number 12535 Account Balance 750.0 Message done
 
+ Terminating client Receiving Thread, execution time 8 ms
+
  Terminating client Sending Thread, execution time 8 ms
 
  Terminating server thread -  Running time 12 milliseconds
 
  Terminating network thread - Client disconnected Server disconnected
-
- Terminating client Receiving Thread, execution time 8 ms

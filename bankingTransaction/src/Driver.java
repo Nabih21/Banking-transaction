@@ -26,7 +26,7 @@ public class Driver {
         PrintStream fileOut = null;
 
         try {
-             fileOut = new PrintStream("./output.txt");
+             fileOut = new PrintStream("./output_with_bufferSize_20.txt");
             System.setOut(fileOut); // Redirects standard output to "output.txt"
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -54,7 +54,7 @@ public class Driver {
         }
     
         if (fileOut != null) {
-            fileOut.close(); 
+            fileOut.close();  
         }
 
     }
